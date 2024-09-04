@@ -1,8 +1,10 @@
 * Neural Networks and Deep Neural Networks
 
+Developing a simple neural network in Zig because why not, I can always
+learn something.
+
 ** Resources
 
 - [[https://yann.lecun.com/exdb/mnist/][MNIST Database]]
 - [[https://neuralnetworksanddeeplearning.com/chap1.html][Neural Networks and Deep Learning Online Textbook]]
 - [[https://arxiv.org/pdf/1706.03762][Google's Transformer Architecture paper]]
-- 
