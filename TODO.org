@@ -1,0 +1,9 @@
+* Project steps
+
+** Tensor structure implementation
+
+- row-major-order indexing
+  - [[https://eli.thegreenplace.net/2015/memory-layout-of-multi-dimensional-arrays/][memory-layout-multidimensional-arrays]]
+  - last index is the fastest changing (like columns in matrices)
+
+* Todo list
