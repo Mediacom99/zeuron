@@ -11,6 +11,7 @@ pkgs.mkShell {
   # add binaries
   packages = with pkgs.python311Packages; [
 	unstable.zig
+	unstable.zls
   ];
 
   # add build dependecies from list of derivations
