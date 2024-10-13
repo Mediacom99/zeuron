@@ -8,7 +8,7 @@
 //! To implement:
 //!    - SIMD support
 //!    - Custom memory allocator
-//!    - Extend to generic data type (f64...) 
+//!    - Extend to generic data type (f64...)
 
 const std = @import("std");
 const testing = std.testing;
@@ -16,10 +16,8 @@ const expect = std.testing.expect;
 const Allocator = std.mem.Allocator;
 const dprint = std.debug.print;
 
-
 /// Multi-dimensional matrix in row-major-order.
 pub const Tensor = struct {
-    
     /// The actual matrix entries represented as
     /// a flat array of f32 regardless of the tensor dimension
     data: []f32 = undefined,
@@ -39,8 +37,6 @@ pub const Tensor = struct {
     ///Will probably implement a custom allocator.
     allocator: Allocator = undefined,
 
-
-    
     ///Init function, creates empty tensor object
     ///data is initialized with undefined
     pub fn init(allocator: Allocator, shape: []usize) !Tensor {
@@ -50,14 +46,14 @@ pub const Tensor = struct {
         errdefer allocator.free(owned_shape);
 
         //Initialize strides array
-        var strides = try allocator.alloc(usize,  shape.len);
+        var strides = try allocator.alloc(usize, shape.len);
         errdefer allocator.free(strides);
 
         //Calculate strides and total tensor size
         var total_dim: usize = 1;
         var i: usize = shape.len;
         while (i > 0) {
-            i-=1;
+            i -= 1;
             strides[i] = total_dim;
             total_dim *= shape[i];
         }
@@ -72,7 +68,6 @@ pub const Tensor = struct {
             .strides = strides,
             .allocator = allocator,
         };
-
     }
 
     ///Free memory for data,shape and strides.
@@ -86,40 +81,37 @@ pub const Tensor = struct {
 
     ///Pretty print shape and strides
     pub fn prettyDebugPrint(self: *Tensor) void {
-        dprint("Shape: ",.{});
-        dprint("[",.{});
-        for(self.shape, 0..) |dim, i| {
-            if(i == self.shape.len - 1) {
+        dprint("Shape: ", .{});
+        dprint("[", .{});
+        for (self.shape, 0..) |dim, i| {
+            if (i == self.shape.len - 1) {
                 dprint("{}", .{dim});
             } else {
                 dprint("{}, ", .{dim});
             }
         }
-        dprint("]\nStrides: [",.{});
-        for(self.strides, 0..) |str, i| {
-            if(i == self.strides.len - 1) {
+        dprint("]\nStrides: [", .{});
+        for (self.strides, 0..) |str, i| {
+            if (i == self.strides.len - 1) {
                 dprint("{}", .{str});
             } else {
                 dprint("{}, ", .{str});
             }
         }
-        dprint("]\n",.{});
+        dprint("]\n", .{});
     }
-
-
-
 };
 
 test "tensor initialization and strides calculation" {
     const alloc = std.testing.allocator;
 
-    var shape = [_]usize{3,3,3};
+    var shape = [_]usize{ 3, 3, 3 };
     var tensor = try Tensor.init(alloc, &shape);
     defer tensor.deinit();
-    
+
     try expect(tensor.data.len == 27);
-    
-    for(tensor.shape) |dim| {
+
+    for (tensor.shape) |dim| {
         try expect(dim == 3);
     }
 
@@ -127,5 +119,4 @@ test "tensor initialization and strides calculation" {
     try expect(tensor.strides[2] == 1);
     try expect(tensor.strides[1] == 3);
     try expect(tensor.strides[0] == 9);
-    
 }
